@@ -1,0 +1,152 @@
+-- 1. โหลด Rayfield Library
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+-- 2. ตั้งค่าและเปิดใช้งาน Key System 
+Rayfield:SetKeySystem({
+    Title = "key", 
+    Subtitle = "Key System",
+    Note = "find in https://discord.gg/UQWAh5pd5f",
+    FileName = "Key",
+    SaveKey = true,
+    GrabKeyFromSite = true,
+    Key = {"https://pastebin.com/raw/ZJvpk3Rv"}
+})
+
+-- 3. สร้าง Window
+local Window = Rayfield:CreateWindow({
+    Name = "San Script Hub",
+    Icon = 0,
+    LoadingTitle = "Sanscripthud is loading",
+    LoadingSubtitle = "by San 11year old",
+    ShowText = "San script hud",
+    Theme = "Default",
+    ToggleUIKeybind = "K",
+    DisableRayfieldPrompts = false,
+    DisableBuildWarnings = false,
+
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = "San Hub Configs",
+        FileName = "San script Hub"
+    },
+
+    Discord = {
+        Enabled = true,
+        Invite = "UQWAh5pd5f",
+        RememberJoins = false
+    }
+})
+
+-- 4. สร้าง Tab และ Elements
+
+---
+### 🌙 Tab 99 Night
+
+local Tab99Night = Window:CreateTab("99night", 4483362458)
+-- ... (ปุ่มต่างๆ ของ 99 Night) ...
+local ButtonVape = Tab99Night:CreateButton({
+   Name = "vape void ware",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VW-Add/main/nightsintheforest.lua", true))()
+      Rayfield:Notify({ Title = "99 Night", Content = "Vape Void Ware loaded!", Duration = 4, Image = "check-circle" })
+   end,
+})
+
+local ButtonThai = Tab99Night:CreateButton({
+   Name = "Thai",
+   Callback = function()
+      loadstring(game:HttpGet('https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/99Nightv1'))()
+      Rayfield:Notify({ Title = "99 Night", Content = "Thai script loaded!", Duration = 4, Image = "check-circle" })
+   end,
+})
+
+---
+### 🍊 Tab Blox Fruit
+
+local TabBloxFruit = Window:CreateTab("blox fruit", 4483362458)
+-- ... (ปุ่มต่างๆ ของ Blox Fruit) ...
+local ButtonOpBlox = TabBloxFruit:CreateButton({
+   Name = "op blox fruit",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))()
+      Rayfield:Notify({ Title = "Blox Fruit", Content = "Op Blox Fruit loaded!", Duration = 4, Image = "check-circle" })
+   end,
+})
+
+local ButtonRedzHud = TabBloxFruit:CreateButton({
+   Name = "redz hud",
+   Callback = function()
+      loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/20f318386e3fbf069ee3fa797cfc9f34.lua"))()
+      Rayfield:Notify({ Title = "Blox Fruit", Content = "Redz HUD loaded!", Duration = 4, Image = "check-circle" })
+   end,
+})
+
+---
+### ⚔️ Tab Rival
+
+local TabRival = Window:CreateTab("Rival", 4483362458)
+-- ... (ปุ่มต่างๆ ของ Rival) ...
+local ButtonRivalLoad1 = TabRival:CreateButton({
+   Name = "Load Rival Script 1",
+   Callback = function()
+      loadstring(game:HttpGet("https://pastebin.com/raw/zWhb1mMS"))()
+      Rayfield:Notify({ Title = "Rival Script", Content = "Rival script 1 loaded successfully!", Duration = 5, Image = "check-circle" })
+   end,
+})
+
+local ButtonRivalLoad2 = TabRival:CreateButton({
+   Name = "KiciaHook Loader", 
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/kiciahook/kiciahook/refs/heads/main/loader.lua"))()
+      Rayfield:Notify({ Title = "Rival Script", Content = "KiciaHook Loader loaded!", Duration = 5, Image = "check-circle" })
+   end,
+})
+
+local ButtonRivalLoadKeyed = TabRival:CreateButton({
+   Name = "Rival Keyed Script", 
+   Callback = function()
+      loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/e945f55997c4240abc865c0bcc2136c5.lua"))()
+      Rayfield:Notify({ Title = "⚠️ Rival Key Required", Content = "The script loaded, but it requires a separate key!", Duration = 7, Image = "alert-triangle" })
+   end,
+})
+
+---
+### ✈️ Tab Fly (ใหม่)
+
+local TabFly = Window:CreateTab("Fly", 4483362458)
+
+local ButtonFlyGui = TabFly:CreateButton({
+   Name = "XNEOFF FlyGuiV3",
+   Callback = function()
+      -- สคริปต์ FlyGuiV3
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))() 
+      
+      Rayfield:Notify({
+         Title = "Fly Tab",
+         Content = "FlyGuiV3 loaded!",
+         Duration = 4,
+         Image = "trending-up" -- ไอคอนที่สื่อถึงการเคลื่อนไหว
+      })
+   end,
+})
+
+---
+### 🖱️ Tab Auto Clicker (ใหม่)
+
+local TabAutoClicker = Window:CreateTab("Auto Clicker", 4483362458)
+
+local ButtonAutoClicker = TabAutoClicker:CreateButton({
+   Name = "Hostile Auto Clicker (Keyed)",
+   Callback = function()
+      -- สคริปต์ Auto Clicker (มีการกำหนดคีย์ก่อนการโหลด)
+      getgenv().key = "Hostile"
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/The-telligence/main/MC%20KSystem%202"))()
+      
+      Rayfield:Notify({
+         Title = "Auto Clicker Tab",
+         Content = "Hostile Auto Clicker loaded!",
+         Duration = 4,
+         Image = "mouse-pointer" -- ไอคอนที่สื่อถึงการคลิก
+      })
+   end,
+})
