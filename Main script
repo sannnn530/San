@@ -14,7 +14,7 @@ Rayfield:SetKeySystem({
 
 -- 3. สร้าง Window
 local Window = Rayfield:CreateWindow({
-    Name = "San Script Hub",
+    Name = "SanScriptHub",
     Icon = 0,
     LoadingTitle = "Sanscripthud is loading",
     LoadingSubtitle = "by San 11year old",
