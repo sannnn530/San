@@ -1,0 +1,108 @@
+--! LocalScript (วางใน StarterPlayer > StarterPlayerScripts)
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
+
+local is_invisible = false -- สถานะเริ่มต้น: มองเห็นได้
+local BASE_TRANSPARENCY = 0  -- ความโปร่งใสเมื่อมองเห็นได้
+local INVISIBLE_TRANSPARENCY = 1 -- ความโปร่งใสเมื่อล่องหน
+
+-- =========================================================================
+-- ส่วนที่ 1: ฟังก์ชันหลักในการตั้งค่าความโปร่งใส
+-- =========================================================================
+
+local function setCharacterVisibility(visibility)
+    -- ลูปผ่านทุกส่วนประกอบในตัวละคร
+    for i, part in ipairs(Character:GetChildren()) do
+        -- ตรวจสอบว่าเป็น BasePart (เช่น แขน, ขา, ลำตัว) หรือ Accessory
+        if part:IsA("BasePart") or part:IsA("Part") then
+            part.LocalTransparencyModifier = visibility
+        elseif part:IsA("Accessory") then
+            -- จัดการกับส่วนประกอบของ Accessory (เช่น Hair, Hat)
+            local handle = part:FindFirstChild("Handle")
+            if handle and handle:IsA("BasePart") then
+                handle.LocalTransparencyModifier = visibility
+            end
+        end
+    end
+
+    -- จัดการกับ Head Mesh (ถ้ามี)
+    local head = Character:FindFirstChild("Head")
+    if head and head:FindFirstChildOfClass("SpecialMesh") then
+        head.LocalTransparencyModifier = visibility
+    end
+
+    -- จัดการกับ Clothing/Decals (ลบออกชั่วคราวเพื่อให้แน่ใจว่าล่องหนสนิท)
+    -- โค้ดนี้ถูกละไว้เพื่อความเรียบง่าย แต่ถ้าผู้เล่นยังเห็นเสื้อผ้า ให้เพิ่มโค้ดจัดการเสื้อผ้าที่นี่
+end
+
+-- =========================================================================
+-- ส่วนที่ 2: ฟังก์ชันสำหรับสลับสถานะ (Toggle)
+-- =========================================================================
+
+local function toggleInvisibility()
+    is_invisible = not is_invisible -- สลับสถานะ
+
+    if is_invisible then
+        setCharacterVisibility(INVISIBLE_TRANSPARENCY)
+        print("ผู้เล่นล่องหนแล้ว (Invisible)")
+    else
+        setCharacterVisibility(BASE_TRANSPARENCY)
+        print("ผู้เล่นกลับมามองเห็นได้ (Visible)")
+    end
+end
+
+-- =========================================================================
+-- ส่วนที่ 3: การจัดการเมื่อตัวละครตาย/เกิดใหม่
+-- =========================================================================
+
+local function onCharacterAdded(newCharacter)
+    Character = newCharacter
+    
+    -- รอให้ส่วนต่างๆ ของตัวละครโหลดเสร็จ
+    Character.ChildAdded:Wait() 
+    
+    -- หากสถานะปัจจุบันคือล่องหน ให้ตั้งค่าความโปร่งใสอีกครั้ง
+    if is_invisible then
+        -- ใช้ delay สั้นๆ เพื่อให้แน่ใจว่าทุกส่วนโหลดเสร็จ
+        task.wait(0.1) 
+        setCharacterVisibility(INVISIBLE_TRANSPARENCY)
+    end
+end
+
+Player.CharacterAdded:Connect(onCharacterAdded)
+
+-- =========================================================================
+-- ส่วนที่ 4: การสร้าง GUI และปุ่ม (สำหรับทดสอบ)
+-- =========================================================================
+
+local function createGUI()
+    local ControlGUI = Instance.new("ScreenGui")
+    ControlGUI.Name = "InvisibilityControl"
+    ControlGUI.Parent = Player:WaitForChild("PlayerGui")
+    
+    local ToggleButton = Instance.new("TextButton")
+    ToggleButton.Name = "ToggleInvisibility"
+    ToggleButton.Text = "Toggle Ghost Mode"
+    ToggleButton.Size = UDim2.new(0, 150, 0, 40)
+    ToggleButton.Position = UDim2.new(0, 10, 0, 10) -- มุมบนซ้าย
+    ToggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    ToggleButton.TextColor3 = Color3.new(1, 1, 1)
+    ToggleButton.Parent = ControlGUI
+    
+    -- เชื่อมต่อปุ่มเข้ากับฟังก์ชันสลับสถานะ
+    ToggleButton.MouseButton1Click:Connect(function()
+        toggleInvisibility()
+        if is_invisible then
+            ToggleButton.Text = "Turn VISIBLE"
+            ToggleButton.BackgroundColor3 = Color3.fromRGB(150, 50, 50) -- สีแดง
+        else
+            ToggleButton.Text = "Toggle Ghost Mode"
+            ToggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        end
+    end)
+    
+    print("ปุ่มควบคุมการล่องหนถูกสร้างแล้ว!")
+end
+
+createGUI()
