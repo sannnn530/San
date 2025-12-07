@@ -1,0 +1,538 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "Rayfield Example Window",
+   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "Rayfield Interface Suite",
+   LoadingSubtitle = "by Sirius",
+   ShowText = "Rayfield", -- for mobile users to unhide rayfield, change if you'd like
+   Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+   ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
+
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "San script Hub"
+   },
+
+   Discord = {
+      Enabled = true, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "https://discord.gg/UQWAh5pd5f", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      RememberJoins = false -- Set this to false to make them join the discord every time they load it up
+   },
+
+   KeySystem = false , -- Set this to true to use our key system
+   KeySettings = {
+      Title = "key",
+      Subtitle = "Key System ",
+      Note = "find in https://discord.gg/UQWAh5pd5f", -- Use this to tell the user how to get a key
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = true, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"https://pastebin.com/raw/ZJvpk3Rv"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
+
+local Tab = Window:CreateTab("Tab Game Exploits", 4483362458) -- Title, Image
+
+  local Button = Tab:CreateButton({
+   Name = "vape void ware 99 night",
+   Callback = function()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VW-Add/main/nightsintheforest.lua", true))()
+
+Rayfield:Notify({
+   Title = "script",
+   Content = "loading",
+   Duration = 6.5,
+   Image = 4483362458,
+})
+
+   -- The function that takes place when the button is pressed
+   end,
+})
+
+  local Button = Tab:CreateButton({
+   Name = "Thai",
+   Callback = function()
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/99Nightv1'))()
+
+Rayfield:Notify({
+   Title = "script",
+   Content = "loading",
+   Duration = 6.5,
+   Image = 4483362458,
+})
+
+   -- The function that takes place when the button is pressed
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "op blox fruit",
+   Callback = function()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))()
+
+Rayfield:Notify({
+   Title = "script",
+   Content = "loading",
+   Duration = 6.5,
+   Image = 4483362458,
+})
+
+   -- The function that takes place when the button is pressed
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "redz hud blox fruit ",
+   Callback = function()
+
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/20f318386e3fbf069ee3fa797cfc9f34.lua"))()
+
+Rayfield:Notify({
+   Title = "script",
+   Content = "loading",
+   Duration = 6.5,
+   Image = 4483362458,
+})
+
+   -- The function that takes place when the button is pressed
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "rival ",
+   Callback = function()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/PollutedHub/PollutedHubLoader/main/Polluted%20Loader"))()
+
+Rayfield:Notify({
+   Title = "script",
+   Content = "loading",
+   Duration = 6.5,
+   Image = 4483362458,
+})
+
+   -- The function that takes place when the button is pressed
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "the forge",
+   Callback = function()
+
+loadstring(game:HttpGet("https://haze.wtf/api/script"))()
+
+Rayfield:Notify({
+   Title = "script",
+   Content = "loading",
+   Duration = 6.5,
+   Image = 4483362458,
+})
+
+   -- The function that takes place when the button is pressed
+   end,
+})
+local Tab = Window:CreateTab("tool", 4483362458) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "fly and more",
+   Callback = function()
+
+--! LocalScript (วางใน StarterPlayer > StarterPlayerScripts)
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+
+-- =========================================================================
+-- ส่วนที่ 1: ค่าคงที่
+-- =========================================================================
+
+local SPEED_INCREMENT = 10 
+local MIN_WALK_SPEED = 5   
+local JUMP_INCREMENT = 25  
+local MIN_JUMP_POWER = 5   
+
+-- =========================================================================
+-- ส่วนที่ 2: การจัดการตัวละครและ Humanoid
+-- =========================================================================
+
+local Character = nil
+local Humanoid = nil
+
+local function updateHumanoid(newCharacter)
+    Character = newCharacter
+    Humanoid = Character:WaitForChild("Humanoid")
+    print("Humanoid อัปเดตพร้อมใช้งานแล้ว!")
+end
+
+Player.CharacterAdded:Connect(updateHumanoid)
+
+if Player.Character then
+    updateHumanoid(Player.Character)
+end
+
+-- =========================================================================
+-- ส่วนที่ 3: Logic ควบคุม
+-- =========================================================================
+
+-- (โค้ดฟังก์ชัน SpeedUp, SpeedDown, JumpUp, JumpDown ยังคงเดิม)
+local function SpeedUp()
+    if Humanoid then
+        Humanoid.WalkSpeed = Humanoid.WalkSpeed + SPEED_INCREMENT
+        print("ความเร็วเพิ่มขึ้นเป็น: " .. Humanoid.WalkSpeed)
+    end
+end
+
+local function SpeedDown()
+    if Humanoid then
+        local newSpeed = Humanoid.WalkSpeed - SPEED_INCREMENT
+        
+        if newSpeed >= MIN_WALK_SPEED then
+            Humanoid.WalkSpeed = newSpeed
+        else
+            Humanoid.WalkSpeed = MIN_WALK_SPEED
+        end
+        print("ความเร็วลดลงเป็น: " .. Humanoid.WalkSpeed)
+    end
+end
+
+local function JumpUp()
+    if Humanoid then
+        Humanoid.JumpPower = Humanoid.JumpPower + JUMP_INCREMENT
+        print("พลังกระโดดเพิ่มขึ้นเป็น: " .. Humanoid.JumpPower)
+    end
+end
+
+local function JumpDown()
+    if Humanoid then
+        local newJump = Humanoid.JumpPower - JUMP_INCREMENT
+        
+        if newJump >= MIN_JUMP_POWER then
+            Humanoid.JumpPower = newJump
+        else
+            Humanoid.JumpPower = MIN_JUMP_POWER
+        end
+        print("พลังกระโดดลดลงเป็น: " .. Humanoid.JumpPower)
+    end
+end
+
+-- =========================================================================
+-- ส่วนที่ 4: การสร้าง GUI และเชื่อมต่อ (แก้ไขตำแหน่ง)
+-- =========================================================================
+
+local function createGUIAndConnect()
+    if Player.PlayerGui:FindFirstChild("ControlGUI") then
+        Player.PlayerGui:FindFirstChild("ControlGUI"):Destroy()
+    end
+    
+    local ControlGUI = Instance.new("ScreenGui")
+    ControlGUI.Name = "ControlGUI"
+    ControlGUI.Parent = Player:WaitForChild("PlayerGui")
+    
+    local Frame = Instance.new("Frame")
+    Frame.Name = "ControlFrame"
+    Frame.Size = UDim2.new(0, 220, 0, 100) 
+    
+    -- *** แก้ไขตำแหน่ง: ย้ายไปมุมล่างซ้าย (Offset 10 จากขอบซ้าย) ***
+    Frame.Position = UDim2.new(0, 10, 1, -110) 
+    
+    Frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Frame.Parent = ControlGUI
+    
+    -- ----------------------------------------------------
+    -- ปุ่ม 1: เพิ่มความเร็ว (WalkSpeed)
+    -- ----------------------------------------------------
+    local SpeedUpButton = Instance.new("TextButton")
+    SpeedUpButton.Name = "SpeedUpButton"
+    SpeedUpButton.Text = "+10 Speed"
+    SpeedUpButton.Size = UDim2.new(0.45, 0, 0.4, 0)
+    SpeedUpButton.Position = UDim2.new(0.05, 0, 0.08, 0) 
+    SpeedUpButton.BackgroundColor3 = Color3.fromRGB(70, 200, 70) 
+    SpeedUpButton.Parent = Frame
+    SpeedUpButton.MouseButton1Click:Connect(SpeedUp)
+
+    -- ----------------------------------------------------
+    -- ปุ่ม 2: ลดความเร็ว (WalkSpeed)
+    -- ----------------------------------------------------
+    local SpeedDownButton = Instance.new("TextButton")
+    SpeedDownButton.Name = "SpeedDownButton"
+    SpeedDownButton.Text = "-10 Speed"
+    SpeedDownButton.Size = UDim2.new(0.45, 0, 0.4, 0)
+    SpeedDownButton.Position = UDim2.new(0.05, 0, 0.52, 0) 
+    SpeedDownButton.BackgroundColor3 = Color3.fromRGB(200, 70, 70) 
+    SpeedDownButton.Parent = Frame
+    SpeedDownButton.MouseButton1Click:Connect(SpeedDown)
+
+    -- ----------------------------------------------------
+    -- ปุ่ม 3: เพิ่มพลังกระโดด (JumpPower)
+    -- ----------------------------------------------------
+    local JumpUpButton = Instance.new("TextButton")
+    JumpUpButton.Name = "JumpUpButton"
+    JumpUpButton.Text = "+" .. JUMP_INCREMENT .. " Jump"
+    JumpUpButton.Size = UDim2.new(0.45, 0, 0.4, 0)
+    JumpUpButton.Position = UDim2.new(0.5, 0, 0.08, 0) 
+    JumpUpButton.BackgroundColor3 = Color3.fromRGB(70, 100, 200) 
+    JumpUpButton.Parent = Frame
+    JumpUpButton.MouseButton1Click:Connect(JumpUp)
+
+    -- ----------------------------------------------------
+    -- ปุ่ม 4: ลดพลังกระโดด (JumpPower)
+    -- ----------------------------------------------------
+    local JumpDownButton = Instance.new("TextButton")
+    JumpDownButton.Name = "JumpDownButton"
+    JumpDownButton.Text = "-" .. JUMP_INCREMENT .. " Jump"
+    JumpDownButton.Size = UDim2.new(0.45, 0, 0.4, 0)
+    JumpDownButton.Position = UDim2.new(0.5, 0, 0.52, 0) 
+    JumpDownButton.BackgroundColor3 = Color3.fromRGB(200, 100, 70) 
+    JumpDownButton.Parent = Frame
+    JumpDownButton.MouseButton1Click:Connect(JumpDown)
+
+    print("GUI ควบคุมความเร็วและการกระโดดถูกย้ายไปมุมล่างซ้ายเรียบร้อย!")
+end
+
+createGUIAndConnect()
+
+--! LocalScript (วางใน StarterPlayer > StarterPlayerScripts)
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
+
+local is_invisible = false -- สถานะเริ่มต้น: มองเห็นได้
+local BASE_TRANSPARENCY = 0  -- ความโปร่งใสเมื่อมองเห็นได้
+local INVISIBLE_TRANSPARENCY = 1 -- ความโปร่งใสเมื่อล่องหน
+
+-- =========================================================================
+-- ส่วนที่ 1: ฟังก์ชันหลักในการตั้งค่าความโปร่งใส
+-- =========================================================================
+
+local function setCharacterVisibility(visibility)
+    -- ลูปผ่านทุกส่วนประกอบในตัวละคร
+    for i, part in ipairs(Character:GetChildren()) do
+        -- ตรวจสอบว่าเป็น BasePart (เช่น แขน, ขา, ลำตัว) หรือ Accessory
+        if part:IsA("BasePart") or part:IsA("Part") then
+            part.LocalTransparencyModifier = visibility
+        elseif part:IsA("Accessory") then
+            -- จัดการกับส่วนประกอบของ Accessory (เช่น Hair, Hat)
+            local handle = part:FindFirstChild("Handle")
+            if handle and handle:IsA("BasePart") then
+                handle.LocalTransparencyModifier = visibility
+            end
+        end
+    end
+
+    -- จัดการกับ Head Mesh (ถ้ามี)
+    local head = Character:FindFirstChild("Head")
+    if head and head:FindFirstChildOfClass("SpecialMesh") then
+        head.LocalTransparencyModifier = visibility
+    end
+
+    -- จัดการกับ Clothing/Decals (ลบออกชั่วคราวเพื่อให้แน่ใจว่าล่องหนสนิท)
+    -- โค้ดนี้ถูกละไว้เพื่อความเรียบง่าย แต่ถ้าผู้เล่นยังเห็นเสื้อผ้า ให้เพิ่มโค้ดจัดการเสื้อผ้าที่นี่
+end
+
+-- =========================================================================
+-- ส่วนที่ 2: ฟังก์ชันสำหรับสลับสถานะ (Toggle)
+-- =========================================================================
+
+local function toggleInvisibility()
+    is_invisible = not is_invisible -- สลับสถานะ
+
+    if is_invisible then
+        setCharacterVisibility(INVISIBLE_TRANSPARENCY)
+        print("ผู้เล่นล่องหนแล้ว (Invisible)")
+    else
+        setCharacterVisibility(BASE_TRANSPARENCY)
+        print("ผู้เล่นกลับมามองเห็นได้ (Visible)")
+    end
+end
+
+-- =========================================================================
+-- ส่วนที่ 3: การจัดการเมื่อตัวละครตาย/เกิดใหม่
+-- =========================================================================
+
+local function onCharacterAdded(newCharacter)
+    Character = newCharacter
+    
+    -- รอให้ส่วนต่างๆ ของตัวละครโหลดเสร็จ
+    Character.ChildAdded:Wait() 
+    
+    -- หากสถานะปัจจุบันคือล่องหน ให้ตั้งค่าความโปร่งใสอีกครั้ง
+    if is_invisible then
+        -- ใช้ delay สั้นๆ เพื่อให้แน่ใจว่าทุกส่วนโหลดเสร็จ
+        task.wait(0.1) 
+        setCharacterVisibility(INVISIBLE_TRANSPARENCY)
+    end
+end
+
+Player.CharacterAdded:Connect(onCharacterAdded)
+
+-- =========================================================================
+-- ส่วนที่ 4: การสร้าง GUI และปุ่ม (สำหรับทดสอบ)
+-- =========================================================================
+
+local function createGUI()
+    local ControlGUI = Instance.new("ScreenGui")
+    ControlGUI.Name = "InvisibilityControl"
+    ControlGUI.Parent = Player:WaitForChild("PlayerGui")
+    
+    local ToggleButton = Instance.new("TextButton")
+    ToggleButton.Name = "ToggleInvisibility"
+    ToggleButton.Text = "Toggle Ghost Mode"
+    ToggleButton.Size = UDim2.new(0, 150, 0, 40)
+    ToggleButton.Position = UDim2.new(0, 10, 0, 10) -- มุมบนซ้าย
+    ToggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    ToggleButton.TextColor3 = Color3.new(1, 1, 1)
+    ToggleButton.Parent = ControlGUI
+    
+    -- เชื่อมต่อปุ่มเข้ากับฟังก์ชันสลับสถานะ
+    ToggleButton.MouseButton1Click:Connect(function()
+        toggleInvisibility()
+        if is_invisible then
+            ToggleButton.Text = "Turn VISIBLE"
+            ToggleButton.BackgroundColor3 = Color3.fromRGB(150, 50, 50) -- สีแดง
+        else
+            ToggleButton.Text = "Toggle Ghost Mode"
+            ToggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        end
+    end)
+    
+    print("ปุ่มควบคุมการล่องหนถูกสร้างแล้ว!")
+end
+
+createGUI()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))() 
+
+Rayfield:Notify({
+   Title = "script",
+   Content = "loading",
+   Duration = 6.5,
+   Image = 4483362458,
+})
+
+   -- The function that takes place when the button is pressed
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "admin panel",
+   Callback = function()
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/IlikeyocutgHAH12/MoonUI-v10-/main/MoonUI%20v10'))()
+
+Rayfield:Notify({
+   Title = "script",
+   Content = "loading",
+   Duration = 6.5,
+   Image = 4483362458,
+})
+
+   -- The function that takes place when the button is pressed
+   end,
+})
+
+local Tab = Window:CreateTab("update2", 4483362458) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "destroy",
+   Callback = function()
+
+Rayfield:Notify({
+   Title = "destroy ",
+   Content = "finish",
+   Duration = 6.5,
+   Image = 4483362458,
+})
+
+Rayfield:Destroy()
+
+   -- The function that takes place when the button is pressed
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "god",
+   Callback = function()
+
+Rayfield:Notify({
+   Title = "god  ",
+   Content = "finish it reset when die",
+   Duration = 6.5,
+   Image = 4483362458,
+})
+
+-- Script Name: Modified_LocalHealthBypass
+
+-- กำหนดค่าสุขภาพสูงสุดที่ต้องการ (100,000,000)
+local DESIRED_HEALTH = 100000000 
+
+-- เข้าถึง Local Player (ผู้เล่นที่กำลังรันสคริปต์นี้)
+local Player = game.Players.LocalPlayer
+
+-- ฟังก์ชันที่จะทำงานทุกครั้งที่ตัวละครของผู้เล่นเกิดใหม่ (Respawn)
+local function setCharacterHealth(character)
+    
+    -- รอ Humanoid โหลดในตัวละคร
+    local humanoid = character:WaitForChild("Humanoid")
+    
+    -- ตั้งค่า MaxHealth ให้เป็น 100 ล้าน
+    humanoid.MaxHealth = DESIRED_HEALTH
+    
+    -- ลูปสำหรับยิงค่าสุขภาพให้เต็มตลอดเวลา (ทุก 0.1 วินาที)
+    while task.wait(0.1) do
+        -- ตรวจสอบว่าตัวละครยังอยู่หรือไม่ (ยังไม่ตาย)
+        if not humanoid or humanoid.Parent == nil then
+            break -- ออกจากลูปยิงสุขภาพ ถ้าตัวละครตาย
+        end
+
+        -- บังคับตั้งค่า MaxHealth และ Health ให้เป็นค่าที่กำหนด
+        -- นี่คือส่วนที่ทำให้สุขภาพเต็มตลอดเวลา
+        if humanoid.MaxHealth ~= DESIRED_HEALTH then
+            humanoid.MaxHealth = DESIRED_HEALTH
+        end
+        if humanoid.Health ~= DESIRED_HEALTH then
+            humanoid.Health = DESIRED_HEALTH
+        end
+    end
+end
+
+-- เชื่อมต่อฟังก์ชันเมื่อตัวละครเกิดใหม่
+-- เมื่อผู้เล่นตายและกลับมาเกิดใหม่ (Respawn) ฟังก์ชัน setCharacterHealth จะทำงานอีกครั้ง
+Player.CharacterAdded:Connect(setCharacterHealth)
+
+-- สำหรับกรณีที่ตัวละครโหลดอยู่แล้วตั้งแต่แรก
+if Player.Character then
+    setCharacterHealth(Player.Character)
+end
+
+print("Modified Health Bypass (100M) Initialized.")
+
+
+   -- The function that takes place when the button is pressed
+   end,
+})
+
+	local Button = Tab:CreateButton({
+   Name = "destroy",
+   Callback = function()
+
+Rayfield:Notify({
+   Title = "destroy ",
+   Content = "finish",
+   Duration = 6.5,
+   Image = 4483362458,
+})
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/sannnn530/San/refs/heads/main/
+San%20climb'))()
+
+   -- The function that takes place when the button is pressed
+   end,
+})
