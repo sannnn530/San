@@ -1,0 +1,153 @@
+--! LocalScript (วางใน StarterPlayer > StarterPlayerScripts)
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+
+-- =========================================================================
+-- ส่วนที่ 1: ค่าคงที่
+-- =========================================================================
+
+local SPEED_INCREMENT = 10 
+local MIN_WALK_SPEED = 5   
+local JUMP_INCREMENT = 25  
+local MIN_JUMP_POWER = 5   
+
+-- =========================================================================
+-- ส่วนที่ 2: การจัดการตัวละครและ Humanoid
+-- =========================================================================
+
+local Character = nil
+local Humanoid = nil
+
+local function updateHumanoid(newCharacter)
+    Character = newCharacter
+    Humanoid = Character:WaitForChild("Humanoid")
+    print("Humanoid อัปเดตพร้อมใช้งานแล้ว!")
+end
+
+Player.CharacterAdded:Connect(updateHumanoid)
+
+if Player.Character then
+    updateHumanoid(Player.Character)
+end
+
+-- =========================================================================
+-- ส่วนที่ 3: Logic ควบคุม
+-- =========================================================================
+
+-- (โค้ดฟังก์ชัน SpeedUp, SpeedDown, JumpUp, JumpDown ยังคงเดิม)
+local function SpeedUp()
+    if Humanoid then
+        Humanoid.WalkSpeed = Humanoid.WalkSpeed + SPEED_INCREMENT
+        print("ความเร็วเพิ่มขึ้นเป็น: " .. Humanoid.WalkSpeed)
+    end
+end
+
+local function SpeedDown()
+    if Humanoid then
+        local newSpeed = Humanoid.WalkSpeed - SPEED_INCREMENT
+        
+        if newSpeed >= MIN_WALK_SPEED then
+            Humanoid.WalkSpeed = newSpeed
+        else
+            Humanoid.WalkSpeed = MIN_WALK_SPEED
+        end
+        print("ความเร็วลดลงเป็น: " .. Humanoid.WalkSpeed)
+    end
+end
+
+local function JumpUp()
+    if Humanoid then
+        Humanoid.JumpPower = Humanoid.JumpPower + JUMP_INCREMENT
+        print("พลังกระโดดเพิ่มขึ้นเป็น: " .. Humanoid.JumpPower)
+    end
+end
+
+local function JumpDown()
+    if Humanoid then
+        local newJump = Humanoid.JumpPower - JUMP_INCREMENT
+        
+        if newJump >= MIN_JUMP_POWER then
+            Humanoid.JumpPower = newJump
+        else
+            Humanoid.JumpPower = MIN_JUMP_POWER
+        end
+        print("พลังกระโดดลดลงเป็น: " .. Humanoid.JumpPower)
+    end
+end
+
+-- =========================================================================
+-- ส่วนที่ 4: การสร้าง GUI และเชื่อมต่อ (แก้ไขตำแหน่ง)
+-- =========================================================================
+
+local function createGUIAndConnect()
+    if Player.PlayerGui:FindFirstChild("ControlGUI") then
+        Player.PlayerGui:FindFirstChild("ControlGUI"):Destroy()
+    end
+    
+    local ControlGUI = Instance.new("ScreenGui")
+    ControlGUI.Name = "ControlGUI"
+    ControlGUI.Parent = Player:WaitForChild("PlayerGui")
+    
+    local Frame = Instance.new("Frame")
+    Frame.Name = "ControlFrame"
+    Frame.Size = UDim2.new(0, 220, 0, 100) 
+    
+    -- *** แก้ไขตำแหน่ง: ย้ายไปมุมล่างซ้าย (Offset 10 จากขอบซ้าย) ***
+    Frame.Position = UDim2.new(0, 10, 1, -110) 
+    
+    Frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Frame.Parent = ControlGUI
+    
+    -- ----------------------------------------------------
+    -- ปุ่ม 1: เพิ่มความเร็ว (WalkSpeed)
+    -- ----------------------------------------------------
+    local SpeedUpButton = Instance.new("TextButton")
+    SpeedUpButton.Name = "SpeedUpButton"
+    SpeedUpButton.Text = "+10 Speed"
+    SpeedUpButton.Size = UDim2.new(0.45, 0, 0.4, 0)
+    SpeedUpButton.Position = UDim2.new(0.05, 0, 0.08, 0) 
+    SpeedUpButton.BackgroundColor3 = Color3.fromRGB(70, 200, 70) 
+    SpeedUpButton.Parent = Frame
+    SpeedUpButton.MouseButton1Click:Connect(SpeedUp)
+
+    -- ----------------------------------------------------
+    -- ปุ่ม 2: ลดความเร็ว (WalkSpeed)
+    -- ----------------------------------------------------
+    local SpeedDownButton = Instance.new("TextButton")
+    SpeedDownButton.Name = "SpeedDownButton"
+    SpeedDownButton.Text = "-10 Speed"
+    SpeedDownButton.Size = UDim2.new(0.45, 0, 0.4, 0)
+    SpeedDownButton.Position = UDim2.new(0.05, 0, 0.52, 0) 
+    SpeedDownButton.BackgroundColor3 = Color3.fromRGB(200, 70, 70) 
+    SpeedDownButton.Parent = Frame
+    SpeedDownButton.MouseButton1Click:Connect(SpeedDown)
+
+    -- ----------------------------------------------------
+    -- ปุ่ม 3: เพิ่มพลังกระโดด (JumpPower)
+    -- ----------------------------------------------------
+    local JumpUpButton = Instance.new("TextButton")
+    JumpUpButton.Name = "JumpUpButton"
+    JumpUpButton.Text = "+" .. JUMP_INCREMENT .. " Jump"
+    JumpUpButton.Size = UDim2.new(0.45, 0, 0.4, 0)
+    JumpUpButton.Position = UDim2.new(0.5, 0, 0.08, 0) 
+    JumpUpButton.BackgroundColor3 = Color3.fromRGB(70, 100, 200) 
+    JumpUpButton.Parent = Frame
+    JumpUpButton.MouseButton1Click:Connect(JumpUp)
+
+    -- ----------------------------------------------------
+    -- ปุ่ม 4: ลดพลังกระโดด (JumpPower)
+    -- ----------------------------------------------------
+    local JumpDownButton = Instance.new("TextButton")
+    JumpDownButton.Name = "JumpDownButton"
+    JumpDownButton.Text = "-" .. JUMP_INCREMENT .. " Jump"
+    JumpDownButton.Size = UDim2.new(0.45, 0, 0.4, 0)
+    JumpDownButton.Position = UDim2.new(0.5, 0, 0.52, 0) 
+    JumpDownButton.BackgroundColor3 = Color3.fromRGB(200, 100, 70) 
+    JumpDownButton.Parent = Frame
+    JumpDownButton.MouseButton1Click:Connect(JumpDown)
+
+    print("GUI ควบคุมความเร็วและการกระโดดถูกย้ายไปมุมล่างซ้ายเรียบร้อย!")
+end
+
+createGUIAndConnect()
