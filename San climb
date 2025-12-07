@@ -1,0 +1,215 @@
+--! LocalScript (วางใน StarterPlayer > StarterPlayerScripts)
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Player = Players.LocalPlayer
+
+-- =========================================================================
+-- ค่าคงที่และการตั้งค่า
+-- =========================================================================
+local CLIMB_SPEED = 25       
+local CLIMB_ANGLE = math.cos(math.rad(30)) 
+local RAYCAST_DISTANCE = 1.5 
+local LEAVE_CLIMB_KEY = Enum.KeyCode.Space -- ปุ่มปล่อยตัว
+
+-- สถานะ
+local isClimbing = false
+local currentWall = nil 
+local wallNormal = Vector3.new()
+local verticalInput = 0 -- สถานะ 1=ขึ้น, -1=ลง, 0=หยุด
+
+-- =========================================================================
+-- การจัดการตัวละคร
+-- =========================================================================
+local Character = Player.Character or Player.CharacterAdded:Wait()
+local Humanoid = Character:WaitForChild("Humanoid")
+local RootPart = Character:WaitForChild("HumanoidRootPart")
+
+local function onCharacterAdded(newCharacter)
+    Character = newCharacter
+    Humanoid = Character:WaitForChild("Humanoid")
+    RootPart = Character:WaitForChild("HumanoidRootPart")
+    if isClimbing then isClimbing = false Humanoid.PlatformStand = false end
+    currentWall = nil
+    verticalInput = 0
+end
+Player.CharacterAdded:Connect(onCharacterAdded)
+
+-- =========================================================================
+-- ฟังก์ชันสถานะปีน (Start/Stop)
+-- =========================================================================
+
+local function startClimbing(wall, normal)
+    if not Humanoid or Humanoid.Health <= 0 or isClimbing then return end
+    
+    isClimbing = true
+    currentWall = wall
+    wallNormal = normal
+    Humanoid.PlatformStand = true -- ปิดแรงโน้มถ่วง
+    
+    -- ล็อคตัวละครให้หันหน้าเข้าหากำแพง
+    RootPart.CFrame = CFrame.new(RootPart.Position, RootPart.Position + wallNormal) * CFrame.Angles(0, math.rad(180), 0)
+    
+    print("เริ่มไต่กำแพงอัตโนมัติ!")
+end
+
+local function stopClimbing()
+    if not isClimbing then return end
+    
+    isClimbing = false
+    currentWall = nil
+    Humanoid.PlatformStand = false -- เปิดแรงโน้มถ่วง
+    verticalInput = 0
+    print("หยุดไต่กำแพง!")
+end
+
+-- =========================================================================
+-- ฟังก์ชันตรวจจับกำแพง
+-- =========================================================================
+local function detectClimbableWall()
+    if not Humanoid or Humanoid.Health <= 0 then return nil, nil end
+    local direction = RootPart.CFrame.LookVector * RAYCAST_DISTANCE
+    
+    local rayParams = RaycastParams.new()
+    rayParams.FilterType = Enum.RaycastFilterType.Exclude
+    rayParams.FilterDescendantsInstances = {Character}
+    
+    local raycastResult = workspace:Raycast(RootPart.Position, direction, rayParams)
+    
+    if raycastResult and raycastResult.Instance and raycastResult.Instance.CanCollide then
+        local surfaceNormal = raycastResult.Normal
+        if math.abs(surfaceNormal.Y) < CLIMB_ANGLE then
+            return raycastResult.Instance, surfaceNormal
+        end
+    end
+    return nil, nil
+end
+
+-- =========================================================================
+-- การจัดการ Input (Space key/Jump button สำหรับปล่อยตัว)
+-- =========================================================================
+UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+    if gameProcessedEvent and input.UserInputType ~= Enum.UserInputType.Touch then return end
+
+    -- ใช้ปุ่มกระโดด (Space) ในการปล่อยตัวออกจากกำแพง
+    if input.KeyCode == LEAVE_CLIMB_KEY and isClimbing then
+        stopClimbing()
+    end
+end)
+
+-- =========================================================================
+-- Loop การทำงานหลัก: ตรวจสอบและควบคุมการไต่กำแพง
+-- =========================================================================
+RunService.Stepped:Connect(function()
+    local wall, normal = detectClimbableWall()
+    local isMoving = Humanoid.MoveDirection.Magnitude > 0.1 -- กำลังกดปุ่มทิศทางใดๆ
+
+    -- *** Logic เริ่มปีนอัตโนมัติ ***
+    if not isClimbing and wall and isMoving and Humanoid.FloorMaterial == Enum.Material.Air then
+        startClimbing(wall, normal)
+    end
+    
+    if not isClimbing then return end
+    
+    -- *** Logic หยุดปีน ***
+    if not wall or wall ~= currentWall then
+        stopClimbing()
+        return
+    end
+
+    -- ----------------------------------------
+    -- การควบคุมการเคลื่อนที่ขณะปีน
+    -- ----------------------------------------
+    local moveDirection = Humanoid.MoveDirection
+    local finalClimbVector = Vector3.new(0, 0, 0)
+    
+    -- 1. การควบคุมขึ้น/ลง (ใช้ VerticalInput จากปุ่ม GUI)
+    if verticalInput ~= 0 then 
+        finalClimbVector = finalClimbVector + Vector3.new(0, verticalInput, 0) * CLIMB_SPEED
+    end
+
+    -- 2. การควบคุมซ้าย/ขวา (ใช้ Joystick/Thumbstick)
+    if isMoving then
+        -- คำนวณเวกเตอร์ที่ขนานกับพื้นผิว (Tangent Vector)
+        local cross = wallNormal:Cross(Vector3.new(0, 1, 0))
+        local tangentVector = cross:Cross(wallNormal).Unit * CLIMB_SPEED
+
+        -- ตรวจสอบทิศทางซ้าย/ขวาของ Joystick (Horizontal movement)
+        -- เราสนใจเฉพาะการเคลื่อนที่ด้านข้างบนแกน X และ Z เท่านั้น
+        local rightDot = moveDirection:Dot(RootPart.CFrame.RightVector)
+
+        if rightDot > 0.2 then -- Joystick ไปทางขวา
+            finalClimbVector = finalClimbVector + tangentVector
+        elseif rightDot < -0.2 then -- Joystick ไปทางซ้าย
+            finalClimbVector = finalClimbVector - tangentVector
+        end
+    end
+    
+    -- ตั้งค่าความเร็ว
+    RootPart.Velocity = finalClimbVector
+    
+    -- ทำให้ RootPart ติดกับกำแพงเสมอ
+    RootPart.CFrame = RootPart.CFrame * CFrame.new(wallNormal * 0.1) 
+end)
+
+-- =========================================================================
+-- การสร้าง GUI สำหรับมือถือ (ปุ่ม ขึ้น/ลง)
+-- =========================================================================
+
+local function createMobileGUI()
+    if Player.PlayerGui:FindFirstChild("ClimbButtonsGUI") then
+        Player.PlayerGui:FindFirstChild("ClimbButtonsGUI"):Destroy()
+    end
+    
+    local ControlGUI = Instance.new("ScreenGui")
+    ControlGUI.Name = "ClimbButtonsGUI"
+    ControlGUI.Parent = Player:WaitForChild("PlayerGui")
+    
+    -- Frame สำหรับจัดกลุ่มปุ่ม (วางมุมบนขวา)
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.new(0, 70, 0, 150)
+    Frame.Position = UDim2.new(1, -80, 0.5, -75) -- มุมขวา กลางๆ หน้าจอ
+    Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    Frame.BackgroundTransparency = 0.5
+    Frame.Parent = ControlGUI
+    
+    -- 1. ปุ่ม ปีนขึ้น (Climb Up)
+    local UpButton = Instance.new("TextButton")
+    UpButton.Name = "UpButton"
+    UpButton.Text = "▲ ขึ้น"
+    UpButton.Size = UDim2.new(0.9, 0, 0.45, 0)
+    UpButton.Position = UDim2.new(0.05, 0, 0.05, 0)
+    UpButton.BackgroundColor3 = Color3.fromRGB(70, 200, 70) 
+    UpButton.Parent = Frame
+    
+    -- 2. ปุ่ม ปีนลง (Climb Down)
+    local DownButton = Instance.new("TextButton")
+    DownButton.Name = "DownButton"
+    DownButton.Text = "▼ ลง"
+    DownButton.Size = UDim2.new(0.9, 0, 0.45, 0)
+    DownButton.Position = UDim2.new(0.05, 0, 0.5, 0)
+    DownButton.BackgroundColor3 = Color3.fromRGB(200, 70, 70) 
+    DownButton.Parent = Frame
+
+    -- Logic การกดปุ่ม
+    
+    -- Up Button
+    UpButton.InputBegan:Connect(function()
+        if isClimbing then verticalInput = 1 end
+    end)
+    UpButton.InputEnded:Connect(function()
+        if verticalInput == 1 then verticalInput = 0 end
+    end)
+
+    -- Down Button
+    DownButton.InputBegan:Connect(function()
+        if isClimbing then verticalInput = -1 end
+    end)
+    DownButton.InputEnded:Connect(function()
+        if verticalInput == -1 then verticalInput = 0 end
+    end)
+    
+    print("ปุ่มควบคุมการปีนขึ้น/ลงสำหรับมือถือถูกสร้างแล้ว!")
+end
+
+createMobileGUI()
