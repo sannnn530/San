@@ -12,11 +12,11 @@ local Window = Rayfield:CreateWindow({
    DisableBuildWarnings = false, 
    ConfigurationSaving = {
       Enabled = true,
-      FolderName = nil, 
+      FolderName = san hud, 
       FileName = "San script hud "
    },
    Discord = {
-      Enabled = true,
+      Enabled = false,
       Invite = "https://discord.gg/UQWAh5pd5f", 
       RememberJoins = false 
    },
@@ -26,7 +26,7 @@ local Window = Rayfield:CreateWindow({
       Subtitle = "Key System ",
       Note = "find in https://discord.gg/UQWAh5pd5f", 
       FileName = "Key", 
-      SaveKey = false, 
+      SaveKey = true, 
       GrabKeyFromSite = true, 
       Key = {"https://pastebin.com/raw/ZJvpk3Rv"} 
    }
