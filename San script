@@ -26,7 +26,7 @@ local Window = Rayfield:CreateWindow({
       Subtitle = "Key System ",
       Note = "find in https://discord.gg/UQWAh5pd5f", 
       FileName = "Key", 
-      SaveKey = true, 
+      SaveKey = false, 
       GrabKeyFromSite = true, 
       Key = {"https://pastebin.com/raw/ZJvpk3Rv"} 
    }
