@@ -34,7 +34,7 @@ local Window = Rayfield:CreateWindow({
       FileName = "SanScriptHubKey", 
       SaveKey = true, 
       GrabKeyFromSite = true,
-      Key = {"https://pastebin.com/raw/ZJvpk3Rv"} 
+      Key = {"https://pastebin.com/raw/ZJvpk3Rv,https://pastebin.com/raw/grNmuwdr"} 
    }
 })
 
