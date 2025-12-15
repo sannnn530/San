@@ -15,8 +15,8 @@ local Window = Rayfield:CreateWindow({
 
    ConfigurationSaving = {
       Enabled = true,
-      FolderName = key san script, -- Create a custom folder for your hub/game
-      FileName = "san script"
+      FolderName = san script, -- Create a custom folder for your hub/game
+      FileName = "san script hub infomation"
    },
 
    Discord = {
