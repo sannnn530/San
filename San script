@@ -61,7 +61,16 @@ TabExploits:CreateButton({
    end,
 })
 TabExploits:CreateButton({
-   Name = "Thai",
+   Name = "brain rod sea",
+   Callback = function()
+       notifyLoading("brain rod sea")
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/main/BrainrotSeas"))()
+
+   end,
+})
+
+TabExploits:CreateButton({
+   Name = "Thai 99 night",
    Callback = function()
        notifyLoading("Thai 99 Night Script")
        loadstring(game:HttpGet('https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/99Nightv1'))()
