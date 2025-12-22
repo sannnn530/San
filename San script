@@ -152,11 +152,11 @@ UtilityTab:CreateButton({
 })
 
 UtilityTab:CreateButton({
-   Name = "God Mode (100M HP)",
+   Name = "God Mode (1000000002882828282828282827272727 HP)",
    Callback = function()
-       Rayfield:Notify({Title = "God Mode", Content = "กำลังเปิด God Mode (100M HP) - จะรีเซ็ตเมื่อตาย", Duration = 5, Image = 4483362458})
+       Rayfield:Notify({Title = "God Mode", Content = "กำลังเปิด God Mode (1000000002882828282828282827272727 HP) - จะรีเซ็ตเมื่อตาย", Duration = 5, Image = 4483362458})
        
-       local DESIRED_HEALTH = 100000000 
+       local DESIRED_HEALTH = 1000000002882828282828282827272727 
        local Player = game.Players.LocalPlayer
        local function setCharacterHealth(character)
            local humanoid = character:WaitForChild("Humanoid")
@@ -171,7 +171,7 @@ UtilityTab:CreateButton({
        end
        Player.CharacterAdded:Connect(setCharacterHealth)
        if Player.Character then setCharacterHealth(Player.Character) end
-       print("Modified Health Bypass (100M) Initialized.")
+       print("Modified Health Bypass (1000000002882828282828282827272727) Initialized.")
    end,
 })
 
