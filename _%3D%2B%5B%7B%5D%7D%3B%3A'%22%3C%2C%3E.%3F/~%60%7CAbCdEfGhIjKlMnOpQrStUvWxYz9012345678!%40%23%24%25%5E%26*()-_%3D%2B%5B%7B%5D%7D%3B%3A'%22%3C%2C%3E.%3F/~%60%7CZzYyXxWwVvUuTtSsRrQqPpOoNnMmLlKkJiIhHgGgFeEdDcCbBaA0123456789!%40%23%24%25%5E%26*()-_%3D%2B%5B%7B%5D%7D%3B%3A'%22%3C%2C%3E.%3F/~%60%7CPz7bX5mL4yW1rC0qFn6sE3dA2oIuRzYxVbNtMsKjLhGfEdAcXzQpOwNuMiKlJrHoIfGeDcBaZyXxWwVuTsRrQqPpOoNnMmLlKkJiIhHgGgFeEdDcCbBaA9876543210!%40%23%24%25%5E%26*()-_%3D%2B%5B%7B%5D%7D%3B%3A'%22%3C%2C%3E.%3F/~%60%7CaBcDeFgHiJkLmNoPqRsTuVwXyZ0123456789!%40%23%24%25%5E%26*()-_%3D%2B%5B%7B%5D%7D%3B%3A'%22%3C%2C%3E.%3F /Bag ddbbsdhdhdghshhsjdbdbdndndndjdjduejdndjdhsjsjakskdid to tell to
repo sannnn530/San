@@ -1,1 +1,137 @@
+-- 1. โหลด Rayfield Library
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
+-- 2. สร้าง Window
+local Window = Rayfield:CreateWindow({
+   Name = "San Script Hub",
+   Icon = 0,
+   LoadingTitle = "Sanscripthud is loading",
+   LoadingSubtitle = "by San 11year old",
+   ShowText = "San script hud", 
+   Theme = "Ocean", 
+   ToggleUIKeybind = "K", 
+
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, 
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "San Hub Configs",
+      FileName = "Big Hub"
+   },
+
+   Discord = {
+      Enabled = false, 
+      Invite = "UQWAh5pd5f", 
+      RememberJoins = true 
+   },
+
+   KeySystem = true, 
+   KeySettings = {
+      Title = "Key Verification",
+      Subtitle = "Enter your key to proceed",
+      Note = "🔑 Please get the current key by joining our Discord Server: discord.gg/UQWAh5pd5f", 
+      FileName = "SanScriptHubKey", 
+      SaveKey = true, 
+      GrabKeyFromSite = true,
+      Key = {"https://pastebin.com/raw/ZJvpk3Rv"} 
+   }
+})
+
+-- 3. สร้าง Tab ใหม่ (ลดจำนวน)
+
+---
+### 🏠 Tab Home (สำหรับข้อมูลทั่วไป)
+local TabHome = Window:CreateTab("Home", 4483362458)
+TabHome:CreateSection("Welcome")
+TabHome:CreateLabel("Welcome to San Script Hub! Use the tabs below for scripts.")
+TabHome:CreateSection("Key Info")
+TabHome:CreateLabel("Current Key Link: https://pastebin.com/raw/ZJvpk3Rv")
+TabHome:CreateLabel("Discord Invite: discord.gg/UQWAh5pd5f")
+
+---
+### ⚔️ Tab Game Exploits (รวม 99 Night, Blox Fruit, Rival)
+local TabExploits = Window:CreateTab("Game Exploits", 4483362458) -- ใช้ Icon ของ Tab 99 Night
+
+-- 3.1 Section: 99 Night
+TabExploits:CreateSection("99 Night Scripts")
+local ButtonVape = TabExploits:CreateButton({
+   Name = "vape void ware",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/VapeVoidware/VW-Add/main/nightsintheforest.lua", true))()
+      Rayfield:Notify({ Title = "99 Night", Content = "Vape Void Ware loaded!", Duration = 4, Image = "check-circle" })
+   end,
+})
+local ButtonThai = TabExploits:CreateButton({
+   Name = "Thai",
+   Callback = function()
+      loadstring(game:HttpGet('https://raw.githubusercontent.com/MQPS7/99-Night-in-the-Forset/refs/heads/main/99Nightv1'))()
+      Rayfield:Notify({ Title = "99 Night", Content = "Thai script loaded!", Duration = 4, Image = "check-circle" })
+   end,
+})
+
+-- 3.2 Section: Blox Fruit
+TabExploits:CreateSection("Blox Fruit Scripts")
+local ButtonOpBlox = TabExploits:CreateButton({
+   Name = "op blox fruit",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))()
+      Rayfield:Notify({ Title = "Blox Fruit", Content = "Op Blox Fruit loaded!", Duration = 4, Image = "check-circle" })
+   end,
+})
+local ButtonRedzHud = TabExploits:CreateButton({
+   Name = "redz hud",
+   Callback = function()
+      loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/20f318386e3fbf069ee3fa797cfc9f34.lua"))()
+      Rayfield:Notify({ Title = "Blox Fruit", Content = "Redz HUD loaded!", Duration = 4, Image = "check-circle" })
+   end,
+})
+
+-- 3.3 Section: Rival Scripts
+TabExploits:CreateSection("Rival Scripts")
+local ButtonRivalLoad1 = TabExploits:CreateButton({
+   Name = "Load Rival Script 1",
+   Callback = function()
+      loadstring(game:HttpGet("https://pastebin.com/raw/zWhb1mMS"))()
+      Rayfield:Notify({ Title = "Rival Script", Content = "Rival script 1 loaded successfully!", Duration = 5, Image = "check-circle" })
+   end,
+})
+local ButtonRivalLoad2 = TabExploits:CreateButton({
+   Name = "KiciaHook Loader", 
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/kiciahook/kiciahook/refs/heads/main/loader.lua"))()
+      Rayfield:Notify({ Title = "Rival Script", Content = "KiciaHook Loader loaded!", Duration = 5, Image = "check-circle" })
+   end,
+})
+local ButtonRivalLoadKeyed = TabExploits:CreateButton({
+   Name = "Rival Keyed Script", 
+   Callback = function()
+      loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/e945f55997c4240abc865c0bcc2136c5.lua"))()
+      Rayfield:Notify({ Title = "⚠️ Rival Key Required", Content = "The script loaded, but it requires a separate key!", Duration = 7, Image = "alert-triangle" })
+   end,
+})
+
+---
+### 🛠️ Tab General Tools (รวม Fly และ Auto Clicker)
+local TabTools = Window:CreateTab("General Tools", 4483362458) 
+
+-- 4.1 Section: Fly
+TabTools:CreateSection("Movement Tools")
+local ButtonFlyGui = TabTools:CreateButton({
+   Name = "XNEOFF FlyGuiV3",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))() 
+      Rayfield:Notify({ Title = "Fly Tab", Content = "FlyGuiV3 loaded!", Duration = 4, Image = "trending-up" })
+   end,
+})
+
+-- 4.2 Section: Auto Clicker
+TabTools:CreateSection("Automation")
+local ButtonAutoClicker = TabTools:CreateButton({
+   Name = "Hostile Auto Clicker (Keyed)",
+   Callback = function()
+      getgenv().key = "Hostile"
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/The-telligence/main/MC%20KSystem%202"))()
+      Rayfield:Notify({ Title = "Auto Clicker Tab", Content = "Hostile Auto Clicker loaded!", Duration = 4, Image = "mouse-pointer" })
+   end,
+})
