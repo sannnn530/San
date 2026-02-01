@@ -1,0 +1,75 @@
+เข้าใจเลยครับ! เพื่อให้บอทของคุณ "ฉลาด" และสร้างรูปได้สวยขึ้น เราจะเพิ่มส่วนที่เรียกว่า Prompt Refinement (การเกลาคำสั่ง) และ Style Presets (การเลือกสไตล์) เข้าไปใน Command ครับ
+แทนที่จะส่งคำดิบๆ ไปให้ AI เราจะใช้ Logic ในการแต่งคำเพิ่มเพื่อให้ได้ภาพระดับ Masterpiece ครับ
+1. ส่วนขยายโค้ด: ฟังก์ชันช่วยเกลา Prompt
+นำส่วนนี้ไปวางเพิ่มในไฟล์ index.mjs (วางไว้ก่อนถึง client.on('messageCreate', ...))
+// ฟังก์ชันสำหรับเลือกสไตล์ภาพ
+const getStylePreset = (style) => {
+    const presets = {
+        'anime': 'Studio Ghibli style, high quality anime art, vibrant colors, detailed background',
+        'realistic': 'Photorealistic, 8k resolution, cinematic lighting, highly detailed, shot on 35mm lens',
+        'cyberpunk': 'Cyberpunk aesthetic, neon lights, futuristic, rainy atmosphere, high contrast',
+        'oil': 'Classical oil painting, thick brushstrokes, rich textures, museum quality'
+    };
+    return presets[style] || ''; // ถ้าไม่ระบุสไตล์ จะส่งค่าว่างกลับไป
+};
+
+// ฟังก์ชันช่วยขัดเกลา Prompt ให้เทพขึ้น
+const enhancePrompt = (userPrompt, styleInfo) => {
+    const qualityTags = "masterpiece, highly detailed, sharp focus, 8k resolution, professional composition";
+    return `${userPrompt}, ${styleInfo}, ${qualityTags}`;
+};
+
+2. ปรับปรุง Command !draw ให้รองรับสไตล์
+แก้ส่วนของ client.on('messageCreate', ...) ให้รองรับการพิมพ์สไตล์ เช่น !draw แมว --anime
+client.on('messageCreate', async (message) => {
+    if (!message.content.startsWith('!draw') || message.author.bot) return;
+
+    // แยกข้อความ: !draw [prompt] --[style]
+    const args = message.content.slice(6).trim(); // ตัด !draw ออก
+    if (!args) return message.reply('ใส่คำสั่งด้วยนะ เช่น `!draw มังกร --realistic`');
+
+    // ตรวจสอบสไตล์ (หาคำว่า --)
+    const parts = args.split('--');
+    const userPrompt = parts[0].trim();
+    const styleKey = parts[1] ? parts[1].trim() : 'default';
+
+    const styleDescription = getStylePreset(styleKey);
+    const finalPrompt = enhancePrompt(userPrompt, styleDescription);
+
+    try {
+        await message.channel.sendTyping();
+        
+        // แจ้งเตือนผู้ใช้หน่อยว่าเรากำลังปรุง Prompt ให้
+        const statusMsg = await message.reply(`🪄 กำลังปรุง Prompt ให้สวยขึ้นด้วยสไตล์: **${styleKey}**...`);
+
+        const model = genAI.getGenerativeModel({ model: "imagen-3" });
+        const result = await model.generateContent(finalPrompt);
+        const response = await result.response;
+
+        const imagePart = response.candidates[0].content.parts.find(p => p.inlineData);
+
+        if (imagePart) {
+            const buffer = Buffer.from(imagePart.inlineData.data, 'base64');
+            const attachment = new AttachmentBuilder(buffer, { name: 'art.png' });
+            
+            await statusMsg.edit({
+                content: `🎨 **Prompt:** ${userPrompt} | **Style:** ${styleKey}`,
+                files: [attachment]
+            });
+        } else {
+            await statusMsg.edit("❌ AI ปฏิเสธการสร้างภาพนี้ (อาจติดเรื่องความปลอดภัย)");
+        }
+    } catch (error) {
+        console.error(error);
+        await message.reply('เกิดข้อผิดพลาดในการประมวลผลครับ');
+    }
+});
+
+โครงสร้างการทำงานของคำสั่งใหม่
+เพื่อให้เห็นภาพชัดเจนว่าคำสั่งที่คุณพิมพ์ไป มันเดินทางอย่างไรจนกลายเป็นรูปภาพ:
+💡 วิธีใช้งานใน Discord
+ตอนนี้บอทของคุณจะเทพขึ้น โดยคุณสามารถพิมพ์สั่งได้แบบนี้:
+ * !draw ทุ่งหญ้ากว้าง (บอทจะใส่คำว่า 8k, masterpiece ให้เอง)
+ * !draw เมืองในอนาคต --anime (บอทจะดึงสไตล์ Studio Ghibli มาใช้)
+ * !draw นักรบชุดเกราะ --realistic (บอทจะปรับให้เหมือนภาพถ่ายจริง)
+อยากให้ผมเพิ่ม "ระบบสุ่มสไตล์" (Random Style) หรือทำให้บอทสามารถเลือก "ขนาดภาพ" (เช่น แนวตั้ง/แนวนอน) เพิ่มเติมไหมครับ?
