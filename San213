@@ -1,0 +1,76 @@
+Act as a master Minecraft Addon (Bedrock Behavior/Resource Packs) and Java Mod developer specializing in custom physics engines, player movement manipulation, custom entity behaviors, and dynamic world generation. 
+
+I want you to design, structure, and write the complete codebase, JSON schemas, behavior definitions, and scripting logic for a comprehensive "Anti-Gravity & Physics" Minecraft Addon.
+
+Please build a fully modular, production-ready implementation plan and write out the required files for the following 5 core systems:
+
+---
+
+### SYSTEM 1: The Core Gravity Physics Engine & API
+Design a robust backend scripting system (using GameTest framework/Bedrock scripts or Java Mixins) to dynamically alter gravity for players, blocks, and entities:
+1. **Global & Local Gravity States:**
+   - A system to define "Zero-G", "Low Gravity", and "Inverted Gravity" (falling upwards) zones using coordinate bounding boxes or dimension-wide rules.
+   - Scripting logic to override the default Minecraft `-0.08` Y-velocity tick drop for entities.
+2. **Entity Weight Classes:**
+   - Tag-based system (e.g., `weight:heavy`, `weight:light`, `weight:zero`) that dictates how different mobs react to gravity zones.
+3. **Dynamic Fall Damage:**
+   - Logic to calculate (or negate) fall damage based on the current gravity state of the player, preventing death when hitting the "ceiling" in inverted zones.
+
+*Provide the core scripts (e.g., `main.js` or Java event handlers), velocity-tick calculation logic, and math functions for vector manipulation.*
+
+---
+
+### SYSTEM 2: Anti-Gravity Gear, Weapons, and Equipment
+Implement a high-tech progression system featuring items that manipulate physics:
+1. **Gravity Gun (The Singularity Cannon):**
+   - **Mechanics:** Right-click to pull entities/blocks toward the player and hold them in mid-air. Left-click to launch them at high speeds.
+   - **Tech:** Use raycasting and entity velocity manipulation.
+2. **Inversion Boots:**
+   - **Mechanics:** Custom armor piece that, when equipped and activated (e.g., via sneaking), flips the player's personal gravity, allowing them to walk seamlessly on ceilings.
+3. **Grav-Pack (Thruster Chestplate):**
+   - **Mechanics:** A balanced flight system that doesn't use creative flight, but instead applies upward Y-velocity bursts when the player jumps in mid-air, requiring "Energy Cell" items as fuel.
+4. **Stasis Grenades:**
+   - **Mechanics:** Thrown projectiles that create a temporary 10x10 zero-gravity bubble where all mobs, items, and projectiles are frozen or float helplessly.
+
+*Provide item component JSON files, custom behavior properties, cooldown logic, and the raycasting scripts for the Gravity Gun.*
+
+---
+
+### SYSTEM 3: Custom Blocks & Base Defense Mechanics
+Code custom technical blocks for players to control gravity within their builds:
+1. **Grav-Lifts & Repulsion Plates:**
+   - Blocks that apply massive upward or directional velocity to anything that steps on them (similar to high-powered slime blocks or jump pads).
+2. **Gravity Anchors:**
+   - A localized beacon-like block. When active, it forces standard 1.0 gravity within a 50-block radius, protecting bases from anti-gravity anomalies or weapons.
+3. **Magnetic Ceiling Tiles:**
+   - Custom decorative and functional blocks that allow players with certain metallic armor tiers to stick to the ceiling without needing Inversion Boots.
+
+*Provide the custom block JSON schemas, block event triggers (`step_on`, `interact`), and the ticking logic for the Gravity Anchor radius.*
+
+---
+
+### SYSTEM 4: The "Fractured Void" Dimension & Generation
+Create a new dimension where gravity is entirely broken:
+1. **World Generation:**
+   - An endless expanse of floating islands of varying sizes, with no solid bedrock bottom (the void acts as a teleport loop, dropping you from the sky if you fall out the bottom).
+2. **Biomes:**
+   - **The Magnetic Wastes:** High-density iron islands where movement is sluggish.
+   - **The Aetherial Reefs:** Zero-G zones where water flows upwards and players swim through the air.
+3. **Environmental Hazards:**
+   - Rogue floating asteroids that drift through the dimension and can collide with the terrain.
+
+*Provide the custom dimension JSON, biome definitions, and terrain generation settings required to achieve floating islands and altered skyboxes.*
+
+---
+
+### SYSTEM 5: Custom Mobs and The "Graviton" Boss Encounter
+Program unique entities adapted to altered physics, culminating in a massive boss fight:
+1. **Floaters & Void Rays:**
+   - Passive and hostile mobs that swim through the air using custom 3D navigation and flight AI behaviors.
+2. **The Graviton Boss:**
+   - **Arena:** A massive floating colosseum that slowly rotates and shatters during the fight.
+   - **Phase 1 (Heavy):** Boss increases the gravity in the arena, preventing the player from jumping and slowing movement speed.
+   - **Phase 2 (Zero-G):** Boss removes all gravity. The player must use the environment and Grav-Packs to maneuver.
+   - **Phase 3 (Inversion):** Boss flips the arena's gravity entirely; the player must fight on the ceiling while dodging debris falling "up".
+
+*Provide entity JSON definition files, flight AI goals (`minecraft:behavior.float`, `minecraft:navigation.fly`), and the multi-phase script logic for the Graviton boss arena transitions.*
